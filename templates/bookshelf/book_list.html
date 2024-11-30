@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% comment %} caliing base file  {% endcomment %}
+{% block title %} The book list {% endblock %} {% comment %} change title  {% endcomment %}
+{% load static %} {% comment %} make static work {% endcomment %}
+
+
+
+{% block content %}
+
+
+<h1> The book list </h1>
+<ul>
+    {% for book in book_list %}
+    <li>{{ book.title }} by {{ book.author }}</li>
+    {% endfor %}
+</ul>
+{% comment %} looping in list  {% endcomment %}
+
+<img src="{% static 'img/1.jpg' %}" alt="">
+
+{% comment %} call img  {% endcomment %}
+
+
+{% endblock %}
