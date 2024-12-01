@@ -20,3 +20,4 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(
             user = instance
         )
+
