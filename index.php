@@ -1,10 +1,17 @@
 <?php
-$firstName = $_POST["firstName"];
-$lastName = $_POST["lastName"];
-$email = $_POST["email"];
+include("./inc/db.php");
 
-echo $firstName . " " . $lastName . " " . $email;
+if (isset($_POST["submit"])) {
+    $firstName = $_POST["firstName"];
+    $lastName = $_POST["lastName"];
+    $email = $_POST["email"];
+    //echo $firstName . " " . $lastName . " " . $email;
 
+    $sql = "INSERT INTO users(firstName, lastName, email)
+            VALUES ('$firstName','$lastName','$email')";
+
+    mysqli_query($conn, $sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +25,11 @@ echo $firstName . " " . $lastName . " " . $email;
 <body>
     <form action="index.php" method="POST">
         <input type="text" name="firstName" id="firstName" placeholder="First Name">
+        <br>
         <input type="text" name="lastName" id="lastName" placeholder="Last Name">
-        <input type="text" name="email" id="email" placeholder="Email">
+        <br>
+        <input type="email" name="email" id="email" placeholder="Email">
+        <br>
         <input type="submit" name="submit" value="Send">
     </form>
 
