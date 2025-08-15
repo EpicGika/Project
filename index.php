@@ -1,38 +1,87 @@
 <?php
-include("./inc/db.php");
+include "./inc/db.php";
+include "./inc/form.php";
+include "./inc/select.php";
+include "./inc/db_Close.php";
 
-if (isset($_POST["submit"])) {
-    $firstName = $_POST["firstName"];
-    $lastName = $_POST["lastName"];
-    $email = $_POST["email"];
-    //echo $firstName . " " . $lastName . " " . $email;
 
-    $sql = "INSERT INTO users(firstName, lastName, email)
-            VALUES ('$firstName','$lastName','$email')";
-
-    mysqli_query($conn, $sql);
-}
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <title>Document</title>
-</head>
-<body>
-    <form action="index.php" method="POST">
-        <input type="text" name="firstName" id="firstName" placeholder="First Name">
-        <br>
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name">
-        <br>
-        <input type="email" name="email" id="email" placeholder="Email">
-        <br>
-        <input type="submit" name="submit" value="Send">
-    </form>
+<?php include_once "./parts/header.php"; ?>
 
-    <script src="./js/script.js"></script>
-</body>
-</html>
+    <div class="container">
+    
+        <div class="position-relative  text-center ">
+            <div class="col-md-5 p-lg-5 mx-auto my-5">
+            <h1 class="display-4 fw-normal">Pick Your Product Now</h1>
+            <p class="lead fw-normal">Last time to take the offer</p>
+            <p class="lead fw-normal">Buy now and search for your gift</p>
+            <h3 id="countdown"></h3>
+            </div> 
+            <div class="product-device shadow-sm d-none d-md-block"></div>
+            <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+        </div>
+
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+            <div class="col-md-5 p-lg-5 mx-auto my-5"></div>
+        <form class="mt-5"  action="<?php $_SERVER['PHP_SELF'] ?>" method="POST" >
+            <h3>Please fill the form</h3>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" name="firstName" class="form-control" id="firstName" value="<?php echo $firstName ?>" aria-describedby="emailHelp">
+                <div class="form-text error"><?php echo $errors["firstNameError"]?></div>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" name="lastName" class="form-control" id="lastName" value="<?php echo $lastName ?>" aria-describedby="emailHelp">
+                <div class="form-text error"><?php echo $errors["lastNameError"]?></div>
+            </div>
+                <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="text" name="email" class="form-control" id="email" value="<?php echo $email ?>" aria-describedby="emailHelp">
+                <div class="form-text error"><?php echo $errors["emailError"]?></div>
+            </div>
+
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+    </div>
+
+    <div class="loader-con">
+        <div id="loader">
+            <canvas id="circularLoader" width="200" height="200"></canvas>
+        </div>
+    </div>
+
+
+
+
+    <!-- Button trigger modal -->
+    <div class="d-grid gap-2 col6 mx-auto my-5">
+        <button type="button" id="winner" class="btn btn-primary">
+            The winner           
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">The winner</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <?php foreach($users as $user): ?>
+                <h1 class="display-3 text-center modal-title" id="modalLabel"><?php echo htmlspecialchars($user['firstName']) .' ' .htmlspecialchars($user['lastName']); ?></h1> 
+        <?php endforeach;?> 
+        </div>
+        </div>
+    </div>
+    </div>
+
+
+<?php include_once "./parts/footer.php"; ?>
+
+
